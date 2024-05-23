@@ -1,3 +1,26 @@
+const rock = document.querySelector("#rock");
+rock.addEventListener('click', () => {
+    playRound("rock");
+    console.log("rock");
+});
+
+const paper = document.querySelector("#paper");
+paper.addEventListener('click', () => {
+    console.log("paper");
+    playRound("paper");
+
+});
+
+const scissors = document.querySelector("#scissors");
+scissors.addEventListener("click", () => {
+    playRound("scissors");
+    console.log("scissors");
+});
+
+const score = document.querySelector('#score');
+const results = document.querySelector("#results");
+
+
 const choices = ['rock', 'paper', 'scissors']
 let humanScore = 0
 let computerScore = 0
@@ -23,61 +46,57 @@ function getHumanChoice() {
     return userInput;
 }
 
-// compare the two choices together
-// log a message and return a score
-// if the choices are the same its a tie, don't change the scores
-// if human choice is rock 
-// if computer is paper add to it's score and return message
-// if computer is scissors add  to user score and return message
 function findWinner(computerChoice, humanChoice) {
 
     if (humanChoice == computerChoice) {
-        console.log("It's a tie!")
-        console.log(`The score is:\nHuman: ${humanScore} Computer ${computerScore}`)
+        results.textContent = 'It\'s a tie!';
     } else if (humanChoice == "rock") {
         if (computerChoice == 'paper') {
             computerScore += 1;
-            console.log(`Computer wins!\n\nHuman: ${humanScore} Computer ${computerScore}`)
+            results.textContent = 'Computer wins!';
         } else {
             humanScore += 1;
-            console.log(`You win!\n\nHuman: ${humanScore} Computer ${computerScore}`)        
+            results.textContent = 'You win!';     
         }
     } else if (humanChoice == 'paper') {
         if (computerChoice == 'scissors') {
             computerScore += 1;
-            console.log(`Computer wins!\n\nHuman: ${humanScore} Computer ${computerScore}`)
+            results.textContent = `Computer wins!`;
         } else {
             humanScore += 1;
-            console.log(`You win!\n\nHuman: ${humanScore} Computer ${computerScore}`)
+            results.textContent = 'You win!';
         }
     } else {
         if (computerChoice == 'rock') {
             computerScore += 1;
-            console.log(`Computer wins!\n\nHuman: ${humanScore} Computer ${computerScore}`)
+            results.textContent = `Computer wins!`
         } else {
             humanScore += 1;
-            console.log(`You win!\n\nHuman: ${humanScore} Computer ${computerScore}`)
+            results.textContent = `You win!`;
         }
     }
+    score.textContent = `Human: ${humanScore} Computer ${computerScore}`;
 
 }
 
-function playOneRound() {
-    const humanChoice = getHumanChoice()
+function playRound(humanChoice) {
     const computerChoice = getComputerChoice()
     console.log(`The computer chose: ${computerChoice}`)
     findWinner(computerChoice, humanChoice)
+    if (computerScore >= 5) {
+        results.textContent = "The computer wins! Better luck next time.";
+        resetScore();
+    } else if (humanScore >= 5) {
+        results.textContent = "Good job, you've won!";
+        resetScore();
+    }
 }
 
-let anotherRound = 'y'
-while (anotherRound == 'y') {
-    playOneRound()
-    anotherRound = prompt("Want to play another round? y/n")
+function resetScore() {
+    humanScore = 0;
+    computerScore = 0;
+    score.textContent = `Human: ${humanScore} Computer ${computerScore}`;
 }
 
-console.log("Alright, well that was kinda fun.")
-if (computerScore >= humanScore) {
-    console.log("Better luck next time.")
-} else {
-    console.log("Good job, you've won.")
-}
+
+
